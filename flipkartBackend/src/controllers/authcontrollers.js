@@ -8,9 +8,8 @@ import jwt from "jsonwebtoken"
 //user ko response bhejna 
 export const register = async (req, res) => {
     try {
-        console.log("BODY:", req.body); // 👈 add this
         console.log("Headers:", req.headers);
-console.log("Body:", req.body);
+        console.log("Body:", req.body);
         const { name, email, password, role } = req.body;
         //check user 
         const userExits = await User.findOne({ email });
@@ -41,30 +40,30 @@ console.log("Body:", req.body);
 
 export const login = async (req, res) => {
     try {
-
-        // extract email and pass from body
         const { email, password } = req.body;
-        // find is user is registerd or not 
+
         const isUser = await User.findOne({ email });
         if (!isUser) {
-            res.status(400).json({ message: "user not found beta " })
+            return res.status(400).json({ message: "user not found beta" });
         }
-        // compare password is user registerd 
+
         const isMatch = await bcrypt.compare(password, isUser.password);
         if (!isMatch) {
-            res.status(400).json({ message: "invalid credentials" })
+            return res.status(400).json({ message: "invalid credentials" });
         }
-        // generate jwt token
+
         const token = jwt.sign(
-            { id: isUser.id, role: isUser.role },
+            { id: isUser._id, role: isUser.role },
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
-        )
+        );
+
         res.json({
-            message: "login ho gaila ho babuaa..",
+            message: "login successful",
             token
-        })
+        });
+
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
     }
-}
+};

@@ -8,6 +8,7 @@ dotenv.config();// ye dotenv file find krta hai aur usko convert krta hia proces
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth",authroutes)
 
