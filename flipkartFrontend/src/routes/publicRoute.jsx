@@ -1,0 +1,1 @@
+// user login hai but usne url me /login likh diya then ab usko login page dikhaye ya dashboard page is problem ko overcome krne k liye public route aaya 

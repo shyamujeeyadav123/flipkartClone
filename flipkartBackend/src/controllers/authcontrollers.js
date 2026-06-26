@@ -33,12 +33,15 @@ export const register = async (req, res) => {
     catch
     (error) {
         console.log(error)
-        res.status(500).json({ message: error.messsage })
+        res.status(500).json({ message: error.message })
     }
 
 }
 
 export const login = async (req, res) => {
+    // check email 
+    // match password using compare
+    // generate token 
     try {
         const { email, password } = req.body;
 
@@ -60,7 +63,14 @@ export const login = async (req, res) => {
 
         res.json({
             message: "login successful",
-            token
+            token,
+            role:isUser.role,
+            user:{
+                id:isUser._id,
+                name:isUser.name,
+                email:isUser.email,
+                role:isUser.role
+            }
         });
 
     } catch (error) {
